@@ -16,21 +16,23 @@ The following observations can be made that our model is able to:
 
 <img src="assets/Market.jpg"  width=256 height=384>
 
-We also conduct experiments on Market-1501 datasets, which is a challenging dataset with low-resolution street person images. Our generated results [DNAF_Market_results](https://drive.google.com/file/d/1C51fN5Yh4rVl8MgPDS0G_iND2_BK7uC5/view?usp=share_link)
+We also conduct experiments on Market-1501 datasets, which is a challenging dataset with low-resolution street person images. Our generated results [DNAF_Market_results](https://drive.google.com/file/d/1C51fN5Yh4rVl8MgPDS0G_iND2_BK7uC5/view?usp=share_link) can be downloaded for evaluation and comparison.
 
 <img src="assets/otherApplication.jpg">
 Further more, our model is capable of a series of downstream applications without extra fine-tuning:
 
-1) Apperance transfer. Our model is capble of modifying the fashion style of a reference image while preserving other elements, making it ideal for virtual try-on applications.
+1) Apperance transfer. Our model is capble of modifying the fashion style of a reference image while preserving other elements, making it ideal for virtual try-on applications. With the cloth mask provided, during the inference process, at each diffusion step, we only preseve the masked part and replace the other region with the original image. 
 2) Artwork Creation. Our model can also be applied to wild images and other forms of artwork. By replacing the style reference with artwork or a realistic photograph that may not necessarily feature a human subject, the model can easily copy the style and facilitate the generation of creative person images. This capability can be particularly beneficial for de- signers seeking inspiration.
 
 ## Method
 <img src="assets/overview.jpg">
 
-We narrow the feature-gap and imformation-gap. For more details please read our paper.
+Our DNAF framework for pose-guided person image synthesis. (a) Architecture overview. (b) At each timestep, we first add the Gaussian noise to the style reference image by respective noise schedule and then send it to the UNet denoiser to extract the intermediate K and V values in all self-attention layers as noise-aware features. (c) A trainable layer is inserted into each UNet block to accept the constant multi-scale feature of style reference image for a basic alignment.
 
-## ToDo
-Once the paper is published, we will release the model and training code.
+For more etails please refer to your paper.
+
+## TODO
+* Once the paper is published, we will release the model and training code.
 
 ## Data Preparation
 We evaluated our model on two public available dataset: DeepFashion and Market-1501. Moreover, we need to render the openpose extraced keypoints to skeleton-style pose map.
