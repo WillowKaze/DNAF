@@ -1,8 +1,10 @@
-# DNAF: Diffusion with Noise-Aware Feature (ICME2024)
+# DNAF: Diffusion with Noise-Aware Feature For Pose-Guided Person Image Synthesis (ICME 2024)
 
 ## Results
 <img src="assets/main_res.png">
-From left to right are: pose input, source input, ground truth results, ADGAN results, PISE results, GFLA results, DPTN results, CASD results, NTED results, PIDM results, Our results.
+From left to right are: pose input, source input, ground truth results, ADGAN results, PISE results, GFLA results, DPTN results, CASD results, NTED results, PIDM results, Ours. 
+
+Our generated samples [DNAF_DeepFashion_results](https://drive.google.com/file/d/1YlvrrQUoZ_vW5ggGdKb7fK85gBMHOh9X/view?usp=share_link) and comparison with other state-of-the-art methods [DNAF_vs_others](https://drive.google.com/file/d/1pRuYxbCDvx2w7gNfggO1Zpo_m78v3UbT/view?usp=share_link) are available for evaluation.
 
 <img src="assets/compare.jpg">
 The following observations can be made that our model is able to: 
@@ -14,7 +16,7 @@ The following observations can be made that our model is able to:
 
 <img src="assets/Market.jpg"  width=256 height=384>
 
-We also conduct experiments on Market-1501 datasets, which is a challenging dataset with low-resolution street person images. Our generated results [DNAF_Market_results](drive.google.com)
+We also conduct experiments on Market-1501 datasets, which is a challenging dataset with low-resolution street person images. Our generated results [DNAF_Market_results](https://drive.google.com/file/d/1C51fN5Yh4rVl8MgPDS0G_iND2_BK7uC5/view?usp=share_link)
 
 <img src="assets/otherApplication.jpg">
 Further more, our model is capable of a series of downstream applications without extra fine-tuning:
@@ -54,7 +56,10 @@ The DeepFash- ion dataset contains 52,172 high-resolution images of fash- ion mo
 
 
 ### Market-1501
-The Market- 1501 dataset is another important benchmark in the context of person re-identification. It consists of 32,668 low-resolution images captured in a street-style scenario. Training set con- tains 263,632 pairs while test set contains 12,000 pairs, and the identities for training and test does not overlap.
+The Market-1501 dataset is another important benchmark in the context of person re-identification. It consists of 32,668 low-resolution images captured in a street-style scenario. Training set con- tains 263,632 pairs while test set contains 12,000 pairs, and the identities for training and test does not overlap.
+
+- Download the Market-1501 dataset from [here](http://www.liangzheng.com.cn/Project/project_reid.html). Rename **bounding_box_train** and **bounding_box_test** to **train** and **test**, and put them under the ```market_data``` directory.
+- Download train/test splits and train/test key points annotations from [Google Drive](https://drive.google.com/open?id=1YMsYXc41dR3k8YroXeWGh9zweNUQmZBw) or [Baidu Disk](https://pan.baidu.com/s/1fcMwXTUk9XKPLpaJSodTrg), including **market-pairs-train.csv**, **market-pairs-test.csv**, **market-annotation-train.csv**, **market-annotation-train.csv**. Put these four files under the ```market_data``` directory.
 
 ### OpenPose Map Render
 
@@ -64,15 +69,38 @@ Our work ultilized pretrained models for a basic image feature extraction abilit
 ```bash
 git clone runwayml/stable-diffusion-v1-5
 ```
-Other variant of diffusion model e.g. stable-diffusion-v1-4 stable-diffusion-v2-1 or stable diffusion-xl may also work well. Remove the model files to ```./checkpoints``` folder.
+Other variant of diffusion model e.g. stable-diffusion-v1-4 stable-diffusion-v2-1 or stable diffusion-xl may also work well. Remove the model files to `./checkpoints` folder.
 ### Swin-Transformer
 we ultilized swin-transformer-base for hierachical vision feature extraction.
 ```bash
 git clone https://huggingface.co/microsoft/swin-base-patch4-window7-224
 ```
-Other variants of swin-transformer or other hierachical vision encoders which output feature pyramid also acceptable. Remove the model files to ```./checkpoints``` folder.
+Other variants of swin-transformer or other hierachical vision encoders which output feature pyramid also acceptable. Remove the model files to `./checkpoints` folder.
+
+## Requirements
+* pytorch
+* torchvision
+* numpy
+* scikit-image
+* PIL
+* tqdm
+* dominate
+* transformers
+* diffusers
+* xformers
+* accelerate
+
 ## Training
 
 ## Inference
+
+## Metrics
+We pick two wide-used metrics, FID and LPIPS, to measure the quality and similarity of the generated 
+```
+python utils/metrics \
+--dataname deepfashion \
+--sizes 256 176 \
+--device cuda 
+```
 
 
