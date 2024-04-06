@@ -63,7 +63,7 @@ The Market-1501 dataset is another important benchmark in the context of person 
 - Download the Market-1501 dataset from [here](http://www.liangzheng.com.cn/Project/project_reid.html). Rename **bounding_box_train** and **bounding_box_test** to **train** and **test**, and put them under the ```market_data``` directory.
 - Download train/test splits and train/test key points annotations from [Google Drive](https://drive.google.com/open?id=1YMsYXc41dR3k8YroXeWGh9zweNUQmZBw) or [Baidu Disk](https://pan.baidu.com/s/1fcMwXTUk9XKPLpaJSodTrg), including **market-pairs-train.csv**, **market-pairs-test.csv**, **market-annotation-train.csv**, **market-annotation-train.csv**. Put these four files under the ```market_data``` directory.
 
-### OpenPose Map Render
+### OpenPose Image Render
 
 ## Model Preparation
 Our work ultilized pretrained models for a basic image feature extraction ability and image generation ability to accelerating training.
@@ -86,18 +86,27 @@ Other variants of swin-transformer or other hierachical vision encoders which ou
 * scikit-image
 * PIL
 * tqdm
-* dominate
 * transformers
 * diffusers
 * xformers
 * accelerate
 
 ## Training
+To train the model, we have already prepared a shell script to start the distributed training. Enter the command below to run the training process after your customed configuration:
+```bash
+bash ./script/train.sh
+```
 
 ## Inference
+To evaluation the performance of the training, we need to first generate test samples.
+```bash
+python ./utils/inference.py
+```
+
+By default, the generated images will be stored to `./output/<dataname>/fake`. This process can take several hours on single GPU. We recommend to test it in a multi-GPU manner.
 
 ## Metrics
-We pick two wide-used metrics, FID and LPIPS, to measure the quality and similarity of the generated 
+We pick two wide-used metrics, FID and LPIPS, to measure the quality and similarity of the generated samples.
 ```
 python utils/metrics \
 --dataname deepfashion \
