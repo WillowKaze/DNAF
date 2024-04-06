@@ -64,12 +64,23 @@ The Market-1501 dataset is another important benchmark in the context of person 
 - Download train/test splits and train/test key points annotations from [Google Drive](https://drive.google.com/open?id=1YMsYXc41dR3k8YroXeWGh9zweNUQmZBw) or [Baidu Disk](https://pan.baidu.com/s/1fcMwXTUk9XKPLpaJSodTrg), including **market-pairs-train.csv**, **market-pairs-test.csv**, **market-annotation-train.csv**, **market-annotation-train.csv**. Put these four files under the ```market_data``` directory.
 
 ### OpenPose Image Render
+After downloading the public dataset, we should render it to openpose style image. `controlnet_aux` provides tools which help us handle the keypoints and construct openpose-style image. Run this command to install the libary.
+```bash
+pip install controlnet_aux
+```
+The process we provided is in a lazy mode, that is it would not be called util you first use the corresponding dataset class. The rendered images will be cached in your disk.
 
 ## Model Preparation
-Our work ultilized pretrained models for a basic image feature extraction ability and image generation ability to accelerating training.
+Our work ultilized pretrained models for a basic image feature extraction ability and image generation ability to accelerating training. Before the training, you should download them first.
+Fisrt we make a directory to place the checkpoints of these models.
+```bash
+mkdir checkpoints
+cd checkpoints
+```
+
 ### Stable Diffusion
 ```bash
-git clone runwayml/stable-diffusion-v1-5
+git clone https://huggingface.co/runwayml/stable-diffusion-v1-5
 ```
 Other variant of diffusion model e.g. stable-diffusion-v1-4 stable-diffusion-v2-1 or stable diffusion-xl may also work well. Remove the model files to `./checkpoints` folder.
 ### Swin-Transformer
@@ -103,7 +114,7 @@ To evaluation the performance of the training, we need to first generate test sa
 python ./utils/inference.py
 ```
 
-By default, the generated images will be stored to `./output/<dataname>/fake`. This process can take several hours on single GPU. We recommend to test it in a multi-GPU manner.
+By default, the generated images will be stored to `./output/<dataname>/fake`. This process can take several hours on single GPU. We recommend to inference on multiple GPUs to speed up.
 
 ## Metrics
 We pick two wide-used metrics, FID and LPIPS, to measure the quality and similarity of the generated samples.
